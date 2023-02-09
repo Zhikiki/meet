@@ -24,7 +24,11 @@ const credentials = {
   token_uri: 'https://oauth2.googleapis.com/token',
   auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
   redirect_uris: ['https://zhikiki.github.io/meet'],
-  javascript_origins: ['https://zhikiki.github.io', 'http://localhost:3000'],
+  javascript_origins: [
+    'https://zhikiki.github.io',
+    'http://localhost:3000',
+    'http://localhost:8080',
+  ],
 };
 
 const { client_secret, client_id, redirect_uris, calendar_id } = credentials;
