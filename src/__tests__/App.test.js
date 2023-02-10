@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme/build';
 import App from '../App';
+import EventList from '../EventList';
 
 // describe - is a container for scope of tests
 describe('<App /> component', () => {
