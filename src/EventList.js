@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 class EventList extends Component {
   render() {
-    return <div></div>;
+    return <ul className='EventList'></ul>;
   }
 }
 
-export default EventList
+export default EventList;
