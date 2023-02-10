@@ -1,6 +1,6 @@
 const { google } = require('googleapis');
-// const OAuth2 = google.auth.OAuth2;
-// const calendar = google.calendar('v3');
+const OAuth2 = google.auth.OAuth2;
+const calendar = google.calendar('v3');
 /**
  * SCOPES allows you to set access levels;
  * this is set to readonly for now because you don't have access rights to
@@ -96,6 +96,67 @@ module.exports.getAccessToken = async (event) => {
           'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify(token),
+      };
+    })
+    .catch((err) => {
+      // Handle error
+      console.error(err);
+      return {
+        statusCode: 500,
+        body: JSON.stringify(err),
+      };
+    });
+};
+
+module.exports.getCalendarEvents = async (event) => {
+  // The values used to instantiate the OAuthClient are at the top of the file
+  const oAuth2Client = new google.auth.OAuth2(
+    client_id,
+    client_secret,
+    redirect_uris[0]
+  );
+
+  // Decode authorization code extracted from the URL query
+  const access_token = decodeURIComponent(
+    `${event.pathParameters.access_token}`
+  );
+
+  // We use setCredentials method on object oAuth2Client
+  // to give it a value of access_token to access_token key
+  // {} - means we are destructin variable
+  oAuth2Client.setCredentials({ access_token });
+
+  return new Promise((resolve, reject) => {
+    // We set calendar variable in the beginnin of this file
+    // We use list() method on it's events
+    // list method has two parametrs: object {} and function (to handle error and response)
+    calendar.events.list(
+      {
+        calendarId: calendar_id,
+        auth: oAuth2Client,
+        timeMin: new Date().toISOString(),
+        singleEvents: true,
+        orderBy: 'startTime',
+      },
+      (error, response) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(response);
+        }
+      }
+    );
+  })
+    .then((results) => {
+      // we received response with results on previous step
+      // here we stringify object results.data.items
+      // as a result we receive list of events, that we can use
+      return {
+        statusCode: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify({ events: results.data.items }),
       };
     })
     .catch((err) => {
