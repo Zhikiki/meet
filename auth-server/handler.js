@@ -1,6 +1,6 @@
 const { google } = require('googleapis');
-const OAuth2 = google.auth.OAuth2;
-const calendar = google.calendar('v3');
+// const OAuth2 = google.auth.OAuth2;
+// const calendar = google.calendar('v3');
 /**
  * SCOPES allows you to set access levels;
  * this is set to readonly for now because you don't have access rights to
@@ -24,11 +24,7 @@ const credentials = {
   token_uri: 'https://oauth2.googleapis.com/token',
   auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
   redirect_uris: ['https://zhikiki.github.io/meet'],
-  javascript_origins: [
-    'https://zhikiki.github.io',
-    'http://localhost:3000',
-    'http://localhost:8080',
-  ],
+  javascript_origins: ['https://zhikiki.github.io', 'http://localhost:3000'],
 };
 
 const { client_secret, client_id, redirect_uris, calendar_id } = credentials;
@@ -96,6 +92,9 @@ module.exports.getAccessToken = async (event) => {
       // Respond with OAuth token
       return {
         statusCode: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
         body: JSON.stringify(token),
       };
     })
