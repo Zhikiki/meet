@@ -17,13 +17,18 @@ class Event extends Component {
     const { collapsed } = this.state;
     return (
       <div className='Event'>
-        <h2 className='summury'>{event.summary}</h2>
-        <p className='start-time'>{event.start.dateTime}</p>
-        <span className='location'>{event.location}</span>
-        <button className='details-button' onClick={this.toogleState}>
-          Details
-        </button>
-        {!collapsed && <EventDetails event={event} />}
+        {collapsed ? (
+          <>
+            <h2 className='summury'>{event.summary}</h2>
+            <p className='start-time'>{event.start.dateTime}</p>
+            <span className='location'>{event.location}</span>
+            <button className='details-button' onClick={this.toogleState}>
+              Details
+            </button>
+          </>
+        ) : (
+          <EventDetails event={event} />
+        )}
       </div>
     );
   }

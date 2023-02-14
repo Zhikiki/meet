@@ -31,7 +31,7 @@ describe('<Event /> component', () => {
   test('event location is rendered', () => {
     expect(EventWrapper.find('.location')).toHaveLength(1);
   });
-  test('event time zone is rendered correctly', () => {
+  test('event location is rendered correctly', () => {
     expect(EventWrapper.find('.location').text()).toBe(event.location);
   });
 
@@ -53,5 +53,9 @@ describe('<Event /> component', () => {
   test('<EventDetails /> rendered when !collapsed', () => {
     expect(EventWrapper.state('collapsed')).toBe(false);
     expect(EventWrapper.find(EventDetails)).toHaveLength(1);
+    expect(EventWrapper.find('.summury')).toHaveLength(0);
+    expect(EventWrapper.find('.start-time')).toHaveLength(0);
+    expect(EventWrapper.find('.location')).toHaveLength(0);
+    expect(EventWrapper.find('.details-button')).toHaveLength(0);
   });
 });
