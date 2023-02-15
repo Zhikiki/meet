@@ -8,7 +8,7 @@ describe('<CitySearch /> component', () => {
   let CitySearchWrapper, locations;
   beforeAll(() => {
     locations = extractLocations(mockData);
-    CitySearchWrapper = shallow(<CitySearch locations={locations} />);
+    CitySearchWrapper = shallow(<CitySearch locations={locations} updateEvents={() => {}} />);
   });
   // test checks whether an element with the class name city exists within the CitySearchWrapper component
   test('render text input', () => {
