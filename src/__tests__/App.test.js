@@ -57,8 +57,8 @@ describe('<App /> integration', () => {
     const selectedCity = suggestions[selectedIndex];
     // instance calls any function component has directly
     // handleItemClicked sets state of query = selected suggestion
-    // await has been added because it’s expected that it will have async code 
-    // that involves fetching the full list of events 
+    // await has been added because it’s expected that it will have async code
+    // that involves fetching the full list of events
     // before filtering them down to the list of events that match the selected city.
     await CitySearchWrapper.instance().handleItemClicked(selectedCity);
     // function gets data fron API call or mockData
@@ -68,6 +68,16 @@ describe('<App /> integration', () => {
       (event) => event.location === selectedCity
     );
     expect(AppWrapper.state('events')).toEqual(eventsToShow);
+    AppWrapper.unmount();
+  });
+
+  test('get list of all events when user selects "See all cities', async () => {
+    const AppWrapper = mount(<App />);
+    const suggestionItems = AppWrapper.find(CitySearch).find('.suggestions li');
+    // "See all cities" is defined as last list item
+    await suggestionItems.at(suggestionItems.length - 1).simulate('click');
+    const allEvents = await getEvents();
+    expect(AppWrapper.state('events')).toEqual(allEvents);
     AppWrapper.unmount();
   });
 });
