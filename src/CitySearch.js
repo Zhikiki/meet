@@ -29,12 +29,17 @@ class CitySearch extends Component {
   render() {
     return (
       <div className='CitySearch'>
+        {/* <label htmlFor='city' className='text-left'>
+          Search by city
+        </label> */}
         {/* Implement: Clear input value on focus */}
         <input
           type='text'
           className='city'
+          id='city'
           value={this.state.query}
           onChange={this.handleInputChanged}
+          placeholder='Search by city'
         />
         <ul
           className={

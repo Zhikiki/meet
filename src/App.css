@@ -2,7 +2,7 @@
 
 .App {
   text-align: center;
-  padding: 2% 5%;
+  /* padding: 2% 5%; */
 
 }
 
@@ -14,6 +14,7 @@
   border: 6px solid white;
   box-shadow: 0px 0px 66px 8px rgba(255, 255, 255, 0.51);
 }
+
 .event_date-info {
   padding-left: 10px;
   border-left: 6px solid #2196F3 !important;
@@ -46,6 +47,7 @@
   border-radius: 7px;
   padding: 5px 15px;
 }
+
 .hide-details-button {
   font-size: larger;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -57,13 +59,9 @@
 }
 
 ul {
-  padding: 0;
+  padding: 0 !important;
   list-style: none;
 }
-/* 
-p {
-  margin: 5px 0;
-} */
 
 .display-none {
   display: none;
@@ -73,8 +71,7 @@ p {
   display: block;
 }
 
-input[type="text"],
-input[type="number"] {
+input {
   padding: 8px 6px 8px 10px;
   border-radius: 4px;
   outline: none;
@@ -94,12 +91,13 @@ input[type="number"] {
   flex-direction: column;
   flex-basis: 300px;
   max-width: 300px;
-  margin: auto;
   position: relative;
+  text-align: left;
 }
 
 .suggestions {
   width: 250px;
+
   position: absolute;
   z-index: 2;
   align-self: center;
@@ -113,6 +111,7 @@ input[type="number"] {
   text-align: left;
   padding: 8px 6px 8px 10px;
   background-color: #eee;
+  color: #333333;
   cursor: default;
 }
 
@@ -122,7 +121,8 @@ input[type="number"] {
 }
 
 .suggestions>li:hover {
-  background-color: #bcdcdb;
+  background-color: #2197F3;
+  color: white;
 }
 
 .event {
@@ -134,7 +134,7 @@ input[type="number"] {
   position: relative;
 }
 
-.details-btn {
+/* .details-btn {
   position: absolute;
   right: 5px;
   bottom: 5px;
@@ -142,14 +142,14 @@ input[type="number"] {
   border-radius: 4px;
   outline: none;
   cursor: pointer;
-}
+} */
 
-.name {
+/* .name {
   font-size: 18px;
   font-weight: 600;
-}
+} */
 
-.group-name {
+/* .group-name {
   text-transform: uppercase;
   font-size: 14px;
 }
@@ -157,16 +157,20 @@ input[type="number"] {
 .going,
 .visibility {
   font-style: italic;
-}
+} */
 
-.description {
+/* .description {
   overflow-x: hidden;
-}
+} */
 
 .numberOfEvents {
-  width: 200px;
-  margin: 20px auto;
-  text-align: center;
+  text-align: right;
+}
+
+.numberOfEvents__input {
+  width: 60px;
+  margin: 0px auto;
+  /* text-align: center; */
 }
 
 /* .button-wrapper {
@@ -177,27 +181,27 @@ input[type="number"] {
   font-family: sans-serif;
 } */
 
-.Alert {
+/* .Alert {
   position: fixed;
   top: 20px;
-}
+} */
 
-.data-vis-wrapper {
+/* .data-vis-wrapper {
   display: flex;
   align-items: center;
   flex-direction: column;
-}
+} */
 
-.data-vis-wrapper .recharts-responsive-container {
+/* .data-vis-wrapper .recharts-responsive-container {
   min-width: 100%;
   display: flex;
-}
+} */
 
-.recharts-surface {
+/* .recharts-surface {
   overflow: visible;
-}
+} */
 
-.login-button {
+/* .login-button {
   color: #494949;
   text-transform: uppercase;
   text-decoration: none;
@@ -208,9 +212,9 @@ input[type="number"] {
   transition: all 0.4s ease 0s;
   min-width: 10rem;
   margin: 1rem;
-}
+} */
 
-.google-btn {
+/* .google-btn {
   width: 184px;
   height: 42px;
   margin: 1rem;
@@ -221,9 +225,9 @@ input[type="number"] {
 
 .google-btn:hover {
   box-shadow: 0 0 6px #4285f4;
-}
+} */
 
-.google-btn:active {
+/* .google-btn:active {
   background: #1669f2;
 }
 
@@ -235,15 +239,15 @@ input[type="number"] {
   height: 40px;
   border-radius: 2px;
   background-color: #fff;
-}
+} */
 
-.google-icon {
+/* .google-icon {
   position: absolute;
   margin-top: 11px;
   margin-left: -8px;
   width: 18px;
   height: 18px;
-}
+} */
 
 /* .btn-text {
   float: right;
@@ -256,7 +260,7 @@ input[type="number"] {
 
 
 
-@media only screen and (min-width: 992px) {
+/* @media only screen and (min-width: 992px) {
   .data-vis-wrapper {
     flex-direction: row;
   }
@@ -267,7 +271,7 @@ input[type="number"] {
     min-width: auto;
     margin: 0 auto;
   }
-}
+} */
 
 /* .App {
   text-align: center;

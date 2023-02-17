@@ -14,9 +14,12 @@ class NumberOfEvents extends Component {
     const numberOfEvents = this.state.numberOfEvents;
     return (
       <div className='numberOfEvents'>
-        <label>Number of events</label>
+        <label htmlFor='numberOfEvents__input' className='d-inline'>
+          Number of events:{' '}
+        </label>
         <input
           id='numberOfEvents__input'
+          className='numberOfEvents__input d-inline'
           value={numberOfEvents}
           onChange={this.handleInputChanged}
         />

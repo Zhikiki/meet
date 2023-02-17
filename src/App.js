@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css'
+import './App.css';
 import EventList from './EventList';
 import CitySearch from './CitySearch';
 import NumberOfEvents from './NumberOfEvents';
@@ -42,20 +42,18 @@ class App extends Component {
 
   render() {
     return (
-      <Container className='App my-5'>
-        <Row className=''>
-          <Col>
+      <Container className='App my-5 p-3'>
+        <Row className='d-flex just justify-content-between mb-4'>
+          <Col className='px-0 col-md-8'>
             <CitySearch
               locations={this.state.locations}
               updateEvents={this.updateEvents}
-              className='mb-5'
             />
           </Col>
           <Col>
             <NumberOfEvents />
           </Col>
         </Row>
-
         <EventList events={this.state.events} />
       </Container>
     );
