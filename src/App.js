@@ -7,6 +7,8 @@ import { extractLocations, getEvents } from './api';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 class App extends Component {
   state = {
@@ -41,12 +43,19 @@ class App extends Component {
   render() {
     return (
       <Container className='App my-5'>
-        <CitySearch
-          locations={this.state.locations}
-          updateEvents={this.updateEvents}
-          className='mb-5'
-        />
-        <NumberOfEvents />
+        <Row className=''>
+          <Col>
+            <CitySearch
+              locations={this.state.locations}
+              updateEvents={this.updateEvents}
+              className='mb-5'
+            />
+          </Col>
+          <Col>
+            <NumberOfEvents />
+          </Col>
+        </Row>
+
         <EventList events={this.state.events} />
       </Container>
     );

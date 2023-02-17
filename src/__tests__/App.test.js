@@ -73,6 +73,9 @@ describe('<App /> integration', () => {
 
   test('get list of all events when user selects "See all cities', async () => {
     const AppWrapper = mount(<App />);
+    const CitySearchWrapper = AppWrapper.find(CitySearch);
+    // showSuggestions state has been set to be true (rendered).
+    CitySearchWrapper.setState({ showSuggestions: true });
     const suggestionItems = AppWrapper.find(CitySearch).find('.suggestions li');
     // "See all cities" is defined as last list item
     await suggestionItems.at(suggestionItems.length - 1).simulate('click');

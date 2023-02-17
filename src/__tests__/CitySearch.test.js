@@ -8,20 +8,28 @@ describe('<CitySearch /> component', () => {
   let CitySearchWrapper, locations;
   beforeAll(() => {
     locations = extractLocations(mockData);
-    CitySearchWrapper = shallow(<CitySearch locations={locations} updateEvents={() => {}} />);
+    CitySearchWrapper = shallow(
+      <CitySearch locations={locations} updateEvents={() => {}} />
+    );
   });
   // test checks whether an element with the class name city exists within the CitySearchWrapper component
   test('render text input', () => {
     expect(CitySearchWrapper.find('.city')).toHaveLength(1);
   });
-
-  test('renders a list of suggestions', () => {
-    expect(CitySearchWrapper.find('.suggestions')).toHaveLength(1);
-  });
-
   test('renders text input correctly', () => {
     const query = CitySearchWrapper.state('query');
     expect(CitySearchWrapper.find('.city').prop('value')).toBe(query);
+  });
+
+  test('updates the input correctly', () => {
+    CitySearchWrapper.find('input[type="text"]').simulate('change', {
+      target: {
+        value: 'Berlin',
+      },
+    });
+    expect(CitySearchWrapper.find('input[type="text"]').prop('value')).toEqual(
+      'Berlin'
+    );
   });
 
   test('change state when text input changes', () => {
@@ -31,7 +39,12 @@ describe('<CitySearch /> component', () => {
     const eventObject = { target: { value: 'Berlin' } };
     CitySearchWrapper.find('.city').simulate('change', eventObject);
     expect(CitySearchWrapper.state('query')).toBe('Berlin');
+    expect(CitySearchWrapper.state('showSuggestions')).toBe(true);
   });
+
+    test('renders a list of suggestions', () => {
+      expect(CitySearchWrapper.find('.suggestions')).toHaveLength(1);
+    });
 
   test('render list of suggestions correctly', () => {
     const locations = extractLocations(mockData);

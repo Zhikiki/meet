@@ -22,8 +22,6 @@ class Event extends Component {
     const { event } = this.props;
     const { collapsed } = this.state;
 
-    // const eventStart = moment(event.start.dateTime).format('DD-MM-YYYY HH:mm');
-    const eventStart = moment(event.start.dateTime).format('llll');
     return (
       <div className='event'>
         <div className='event-overview'>

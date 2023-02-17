@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 
 class CitySearch extends Component {
   state = {
+    locations: this.props.locations,
     query: '',
     suggestions: [],
+    showSuggestions: false,
   };
 
   handleInputChanged = (event) => {
     const value = event.target.value;
+    this.setState({ showSuggestions: true });
     const suggestions = this.props.locations.filter((location) => {
       return location.toUpperCase().indexOf(value.toUpperCase()) > -1;
     });
@@ -17,6 +20,8 @@ class CitySearch extends Component {
   handleItemClicked = (suggestion) => {
     this.setState({
       query: suggestion,
+      suggestion: [],
+      showSuggestions: false,
     });
     this.props.updateEvents(suggestion);
   };
@@ -31,7 +36,13 @@ class CitySearch extends Component {
           value={this.state.query}
           onChange={this.handleInputChanged}
         />
-        <ul className='suggestions'>
+        <ul
+          className={
+            this.state.showSuggestions
+              ? 'suggestions showSuggestions'
+              : 'display-none'
+          }
+        >
           {this.state.suggestions.map((suggestion) => (
             <li
               key={suggestion}
