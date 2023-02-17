@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.css'
 import EventList from './EventList';
 import CitySearch from './CitySearch';
 import NumberOfEvents from './NumberOfEvents';
 import { extractLocations, getEvents } from './api';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Container from 'react-bootstrap/Container';
 
 class App extends Component {
   state = {
@@ -37,14 +40,15 @@ class App extends Component {
 
   render() {
     return (
-      <div className='App'>
+      <Container className='App my-5'>
         <CitySearch
           locations={this.state.locations}
           updateEvents={this.updateEvents}
+          className='mb-5'
         />
         <NumberOfEvents />
         <EventList events={this.state.events} />
-      </div>
+      </Container>
     );
   }
 }

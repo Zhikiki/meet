@@ -26,9 +26,13 @@ describe('<Event /> component', () => {
 
   test('event-overview is rendered with children elements', () => {
     expect(EventWrapper.find('.event-overview')).toHaveLength(1);
-    expect(EventWrapper.find('.event-overview').children()).toHaveLength(4);
     expect(EventWrapper.find('.summury')).toHaveLength(1);
-    expect(EventWrapper.find('.start-time')).toHaveLength(1);
+    expect(EventWrapper.find('.event_date-info')).toHaveLength(1);
+    expect(EventWrapper.find('.start-year')).toHaveLength(1);
+    expect(EventWrapper.find('.start-date')).toHaveLength(1);
+    expect(EventWrapper.find('.start-month')).toHaveLength(1);
+    expect(EventWrapper.find('.start-hour')).toHaveLength(1);
+
     expect(EventWrapper.find('.location')).toHaveLength(1);
     expect(EventWrapper.find('button')).toHaveLength(1);
     expect(EventWrapper.find('button').text()).toBe(
@@ -38,9 +42,20 @@ describe('<Event /> component', () => {
 
   test('event-overview children elements are rendered correctly', () => {
     expect(EventWrapper.find('.summury').text()).toBe(event.summary);
-    expect(EventWrapper.find('.start-time').text()).toBe(
-      moment(event.start.dateTime).format('llll')
+
+    expect(EventWrapper.find('.start-year').text()).toBe(
+      moment(event.start.dateTime).format('YYYY')
     );
+    expect(EventWrapper.find('.start-date').text()).toBe(
+      moment(event.start.dateTime).format('DD')
+    );
+    expect(EventWrapper.find('.start-month').text()).toBe(
+      moment(event.start.dateTime).format('MMM')
+    );
+    expect(EventWrapper.find('.start-hour').text()).toBe(
+      moment(event.start.dateTime).format('HH:mm')
+    );
+
     expect(EventWrapper.find('.location').text()).toBe(
       `@${event.summary} | ${event.location}`
     );

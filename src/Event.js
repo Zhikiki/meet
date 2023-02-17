@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 class Event extends Component {
   state = {
@@ -25,23 +27,54 @@ class Event extends Component {
     return (
       <div className='event'>
         <div className='event-overview'>
-          <h2 className='summury'>{event.summary}</h2>
-          <p className='start-time'>{`${eventStart}`}</p>
-          <p className='location'>
-            @{event.summary} | {event.location}
-          </p>
+          <Row className='d-flex flex-row align-items-center mb-3'>
+            <Col className='event_date-info col-12 col-md-2 '>
+              <Row className='d-flex flex-md-column align-items-end align-items-md-center'>
+                <Col className='start-year text-center'>{`${moment(
+                  event.start.dateTime
+                ).format('YYYY')}`}</Col>
+                <Col className='start-date text-center lh-1'>{`${moment(
+                  event.start.dateTime
+                ).format('DD')}`}</Col>
+                <Col className='start-month text-center'>{`${moment(
+                  event.start.dateTime
+                ).format('MMM')}`}</Col>
+                <Col className='start-hour text-center'>{`${moment(
+                  event.start.dateTime
+                ).format('HH:mm')}`}</Col>
+              </Row>
+            </Col>
+            <Col>
+              <h2 className='summury'>{event.summary}</h2>
+              <p className='location'>
+                @{event.summary} | {event.location}
+              </p>
+            </Col>
+          </Row>
+
           {collapsed ? (
-            <button className='details-button' onClick={this.toogleState}>
-              Details
-            </button>
+            <Row className='mx-md-5 mx-1'>
+              <Col className='text-end'>
+                <button className='details-button' onClick={this.toogleState}>
+                  Details
+                </button>
+              </Col>
+            </Row>
           ) : (
-            <button className='hide-details-button' onClick={this.toogleState}>
-              Hide details
-            </button>
+            <Row className='mx-md-5'>
+              <Col className='text-end'>
+                <button
+                  className='hide-details-button'
+                  onClick={this.toogleState}
+                >
+                  Hide details
+                </button>
+              </Col>
+            </Row>
           )}
         </div>
         {!collapsed && (
-          <div className='event__details'>
+          <div className='event__details ms-4 mt-3'>
             <h3>About event:</h3>
             <p className='description'>{event.description}</p>
             <h4>
