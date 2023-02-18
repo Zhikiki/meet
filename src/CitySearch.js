@@ -5,7 +5,7 @@ class CitySearch extends Component {
     locations: this.props.locations,
     query: '',
     suggestions: [],
-    showSuggestions: false,
+    showSuggestions: undefined,
   };
 
   handleInputChanged = (event) => {
@@ -29,15 +29,14 @@ class CitySearch extends Component {
   render() {
     return (
       <div className='CitySearch'>
-        {/* <label htmlFor='city' className='text-left'>
-          Search by city
-        </label> */}
-        {/* Implement: Clear input value on focus */}
         <input
           type='text'
           className='city'
           id='city'
           value={this.state.query}
+          onFocus={() => {
+            this.setState({ showSuggestions: true, query: '' });
+          }}
           onChange={this.handleInputChanged}
           placeholder='Search by city'
         />
