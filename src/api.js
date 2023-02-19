@@ -31,8 +31,11 @@ const checkToken = async (accessToken) => {
     `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`
   )
     .then((res) => res.json())
-    // write console.log for error
-    .catch((error) => error.json());
+    .catch((error) => {
+      let errorMesage =error.json();
+      console.log(errorMesage);
+    });
+
 
   return result.error ? false : true;
 };
@@ -48,6 +51,39 @@ export const extractLocations = (events) => {
   var locations = [...new Set(extractLocations)];
   return locations;
 };
+
+
+// What this function does is check whether there’s a path,
+// then build the URL with the current path
+// (or build the URL without a path using window.history.pushState()).
+// removes the code from the URL once you’re finished with it
+// used in get events with valid token
+const removeQuery = () => {
+  if (window.history.pushState && window.location.pathname) {
+    var newurl = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+    window.history.pushState('', '', newurl);
+  } else {
+    newurl = `${window.location.protocol}//${window.location.host}`;
+    window.history.pushState('', '', newurl);
+  }
+};
+
+// function is called bellow, when
+// there is no valid token, there is a code (URI)
+const getToken = async (code) => {
+  const encodeCode = encodeURIComponent(code);
+  const getTokenLambdaEP =
+    'https://zzgiz9xeii.execute-api.eu-central-1.amazonaws.com/dev/api/token';
+  const { access_token } = await fetch(`${getTokenLambdaEP}/${encodeCode}`)
+    .then((res) => {
+      return res.json();
+    })
+    .catch((error) => console.log(error));
+    // If token is successfuly fetched, we are saving it in local storage for future needs
+    access_token && localStorage.setItem('access_token', access_token);
+    return access_token
+};
+
 
 export const getEvents = async () => {
   // shows users that the application is loading data when it tries to access the Google Calendar API
