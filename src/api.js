@@ -5,6 +5,25 @@ import { mockData } from './mock-data';
 import axios from 'axios';
 import NProgress from 'nprogress';
 
+// What this function does is check whether there’s a path,
+// then build the URL with the current path
+// (or build the URL without a path using window.history.pushState()).
+// removes the code from the URL once you’re finished with it
+// used in get events with valid token
+const removeQuery = () => {
+  if (window.history.pushState && window.location.pathname) {
+    var newurl =
+      window.location.protocol +
+      '//' +
+      window.location.host +
+      window.location.pathname;
+    window.history.pushState('', '', newurl);
+  } else {
+    newurl = window.location.protocol + '//' + window.location.host;
+    window.history.pushState('', '', newurl);
+  }
+};
+
 // takes the access token which was found bellow in the code
 // checks wheather it is valid (returns response) or not (catches error)
 const checkToken = async (accessToken) => {
@@ -17,14 +36,22 @@ const checkToken = async (accessToken) => {
       console.log(errorMesage);
     });
 
-  return result;
+
+  return result.error ? false : true;
 };
 
+// const extractLocations = (events) => {
+//   var extractLocatins = events.map((event) => event.location);
+//   var locations = [...new Set(extractLocatins)];
+//   return locations;
+// };
 export const extractLocations = (events) => {
+  console.log(events);
   var extractLocations = events.map((event) => event.location);
   var locations = [...new Set(extractLocations)];
   return locations;
 };
+
 
 // What this function does is check whether there’s a path,
 // then build the URL with the current path
@@ -57,6 +84,7 @@ const getToken = async (code) => {
     return access_token
 };
 
+
 export const getEvents = async () => {
   // shows users that the application is loading data when it tries to access the Google Calendar API
   NProgress.start();
@@ -68,6 +96,7 @@ export const getEvents = async () => {
 
   // First we need to wait for results of getAccessToken() - funktion writen bellow
   const token = await getAccessToken();
+  console.log('getEvents token: ', token);
 
   if (token) {
     // removes the code from the URL once you’re finished with it
@@ -90,11 +119,14 @@ export const getEvents = async () => {
   }
 };
 
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// Code is avaliable see clg line 120, 128 and 131
+
 export const getAccessToken = async () => {
   // Checks if token exists in local storage of the user
   const accessToken = localStorage.getItem('access_token');
 
-  // Checks if token (whwn it is found) is valid
+  // Checks if token (when it is found) is valid
   const tokenCheck = accessToken && (await checkToken(accessToken));
 
   // If token is not found or it is not valid
@@ -104,6 +136,7 @@ export const getAccessToken = async () => {
     // We check for authorisation code
     const searchParams = new URLSearchParams(window.location.search);
     const code = await searchParams.get('code');
+    console.log(code);
     // If no authorisation code is found, user is redirected to Google auth screen
     // there they can sign in and receive their code
     if (!code) {
@@ -111,9 +144,31 @@ export const getAccessToken = async () => {
         'https://zzgiz9xeii.execute-api.eu-central-1.amazonaws.com/dev/api/get-auth-url'
       );
       const { authUrl } = results.data;
+      console.log(authUrl);
       return (window.location.href = authUrl);
     }
+    console.log(code);
     return code && getToken(code);
   }
   return accessToken;
+};
+
+// function is called bellow, when
+// there is no valid token, there is a code (URI)
+const getToken = async (code) => {
+  removeQuery();
+  const encodeCode = encodeURIComponent(code);
+  const { access_token } = await fetch(
+    `https://zzgiz9xeii.execute-api.eu-central-1.amazonaws.com/dev/api/token/${encodeCode}`
+  )
+    .then((res) => {
+      return res.json();
+    })
+    .catch((error) => console.log(error));
+
+  // If token is successfuly fetched, we are saving it in local storage for future needs
+  access_token && localStorage.setItem('access_token', access_token);
+  console.log(access_token);
+
+  return access_token;
 };
