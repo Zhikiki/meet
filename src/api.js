@@ -13,8 +13,8 @@ const checkToken = async (accessToken) => {
   )
     .then((res) => res.json())
     .catch((error) => {
-      error.json();
-      console.log(error.json);
+      let errorMesage =error.json();
+      console.log(errorMesage);
     });
 
   return result;
@@ -49,7 +49,7 @@ const getToken = async (code) => {
     'https://zzgiz9xeii.execute-api.eu-central-1.amazonaws.com/dev/api/token';
   const { access_token } = await fetch(`${getTokenLambdaEP}/${encodeCode}`)
     .then((res) => {
-      return res.json;
+      return res.json();
     })
     .catch((error) => console.log(error));
     // If token is successfuly fetched, we are saving it in local storage for future needs
