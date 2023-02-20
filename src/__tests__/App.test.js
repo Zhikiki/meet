@@ -88,8 +88,11 @@ describe('<App /> integration', () => {
     const suggestionItems = AppWrapper.find(CitySearch).find('.suggestions li');
     // "See all cities" is defined as last last item (length -1)
     await suggestionItems.at(suggestionItems.length - 1).simulate('click');
-    const allEvents = await getEvents();
-    expect(AppWrapper.state('events')).toEqual(allEvents);
+    const numberOfEvents = AppWrapper.state('numberOfEvents');
+    await getEvents();
+    expect(AppWrapper.state('events')).toHaveLength(numberOfEvents);
+    // const eventsToShow = allEvents.toHaveLength(numberOfEvents);
+    // expect(AppWrapper.state('events')).toEqual(eventsToShow);
     AppWrapper.unmount();
   });
 
@@ -100,9 +103,24 @@ describe('<App /> integration', () => {
     // state of events should be first defined in parent component
     expect(AppNumberOfEventsState).not.toEqual(undefined);
     // comparing App's events with EventList's events to ensure it's been passed correctly
-    expect(AppWrapper.find(NumberOfEvents).props().numberOfEvents).toEqual(AppNumberOfEventsState);
+    expect(AppWrapper.find(NumberOfEvents).props().numberOfEvents).toEqual(
+      AppNumberOfEventsState
+    );
     // tests that are beeng run in one DOm will effect each other
     // So wee need to clean the DOM after each test
     AppWrapper.unmount();
+  });
+
+  test('Change "numberOfEvents" when the input number changes', async () => {
+    const AppWrapper = mount(<App />);
+    const NumberOfEventsWrapper = AppWrapper.find(NumberOfEvents);
+    const inputNumberOfEvents = NumberOfEventsWrapper.find(
+      '.numberOfEvents__input'
+    );
+    const eventObject = { target: { value: 20 } };
+    inputNumberOfEvents.simulate('change', eventObject);
+    await getEvents();
+    expect(AppWrapper.state('numberOfEvents')).toBe(20);
+    expect(NumberOfEventsWrapper.state('numberOfEvents')).toBe(20);
   });
 });
