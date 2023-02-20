@@ -122,5 +122,21 @@ describe('<App /> integration', () => {
     await getEvents();
     expect(AppWrapper.state('numberOfEvents')).toBe(20);
     expect(NumberOfEventsWrapper.state('numberOfEvents')).toBe(20);
+    AppWrapper.unmount();
+  });
+
+  test('The number of events rendered matching the input number', async () => {
+    const AppWrapper = mount(<App />);
+    const NumberOfEventsWrapper = AppWrapper.find(NumberOfEvents);
+    const EventListWrapper = AppWrapper.find(EventList);
+    const eventObject = { target: { value: 1 } };
+
+    await NumberOfEventsWrapper.instance().handleInputChanged(eventObject);
+    await getEvents();
+
+    expect(AppWrapper.state('events')).toHaveLength(1);
+    expect(EventListWrapper).toHaveLength(1);
+
+    AppWrapper.unmount();
   });
 });
