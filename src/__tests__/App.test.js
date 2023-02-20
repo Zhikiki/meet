@@ -139,4 +139,14 @@ describe('<App /> integration', () => {
 
     AppWrapper.unmount();
   });
+
+  test('The contenct of the event rendered matching the content of the mock API', async () => {
+    const AppWrapper = mount(<App />);
+    const NumberOfEventsWrapper = AppWrapper.find(NumberOfEvents);
+    const eventObject = { target: { value: 1 } };
+    await NumberOfEventsWrapper.instance().handleInputChanged(eventObject);
+    await getEvents();
+    expect(AppWrapper.state('events')).toEqual([mockData[0]]);
+    AppWrapper.unmount();
+  });
 });
