@@ -92,4 +92,17 @@ describe('<App /> integration', () => {
     expect(AppWrapper.state('events')).toEqual(allEvents);
     AppWrapper.unmount();
   });
+
+  test('App passes "numberOfEvents" state as a prop to NumberOfEvents', () => {
+    // mount instead of shallow to render App component together with childrens
+    const AppWrapper = mount(<App />);
+    const AppNumberOfEventsState = AppWrapper.state('numberOfEvents');
+    // state of events should be first defined in parent component
+    expect(AppNumberOfEventsState).not.toEqual(undefined);
+    // comparing App's events with EventList's events to ensure it's been passed correctly
+    expect(AppWrapper.find(NumberOfEvents).props().numberOfEvents).toEqual(AppNumberOfEventsState);
+    // tests that are beeng run in one DOm will effect each other
+    // So wee need to clean the DOM after each test
+    AppWrapper.unmount();
+  });
 });

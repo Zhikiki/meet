@@ -15,12 +15,14 @@ class App extends Component {
   state = {
     events: [],
     locations: [],
+    numberOfEvents: 32,
   };
 
   componentDidMount() {
     this.mounted = true;
     getEvents().then((events) => {
       if (this.mounted) {
+        events = events.slice(0, this.state.numberOfEvents + 1);
         this.setState({ events, locations: extractLocations(events) });
       }
     });
@@ -29,6 +31,7 @@ class App extends Component {
     this.mounted = false;
   }
 
+  // Function updates events array according to chosen city
   updateEvents = (location) => {
     getEvents().then((events) => {
       const locationEvents =
@@ -52,7 +55,7 @@ class App extends Component {
             />
           </Col>
           <Col>
-            <NumberOfEvents />
+            <NumberOfEvents numberOfEvents={this.state.numberOfEvents} />
           </Col>
         </Row>
         <EventList events={this.state.events} />
