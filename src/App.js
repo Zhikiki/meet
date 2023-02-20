@@ -34,8 +34,6 @@ class App extends Component {
 
   // Function updates events array according to chosen city
   updateEvents = (location, inputNumber) => {
-    // console.log(inputNumber);
-    // console.log(location);
     const { numberOfEvents, selectedLocation } = this.state;
     if (location) {
       getEvents().then((events) => {
@@ -62,7 +60,6 @@ class App extends Component {
         });
         
       });
-      console.log(this.state.numberOfEvents);
     }
     // getEvents().then((events) => {
     //   const locationEvents =

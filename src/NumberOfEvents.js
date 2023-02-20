@@ -11,9 +11,6 @@ class NumberOfEvents extends Component {
     this.props.updateEvents(null, inputValue);
     this.setState({ numberOfEvents: inputValue });
   };
-  loggingState = () => {
-    console.log(this.state.numberOfEvents);
-  }
 
   render() {
     const numberOfEvents = this.state.numberOfEvents;
@@ -27,7 +24,6 @@ class NumberOfEvents extends Component {
           className='numberOfEvents__input d-inline'
           value={numberOfEvents}
           onChange={this.handleInputChanged}
-          onClick={this.loggingState}
         />
         {/* <select
           name='pets'
