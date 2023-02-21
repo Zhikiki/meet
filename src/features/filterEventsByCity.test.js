@@ -1,8 +1,10 @@
 import { loadFeature, defineFeature } from 'jest-cucumber';
 import App from '../App';
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import { mockData } from '../mock-data';
+import CitySearch from '../CitySearch';
+import { extractLocations } from '../api';
 
 // loadFeature() is built-in cucumber function, is used to load a Gherkin file (with scenarios)
 // NOTE  file path to start from the root of the project
@@ -25,14 +27,17 @@ defineFeature(feature, (test) => {
       AppWrapper = mount(<App />);
     });
 
-    then('the user should see the list of upcoming events all locations.', () => {
-      // the act of getting the list of events is an asynchronous action
-      // so the first we are updating the App component using AppWrapper.update()
-      AppWrapper.update();
-      expect(AppWrapper.find('.event').hostNodes()).toHaveLength(
-        mockData.length
-      );
-    });
+    then(
+      'the user should see the list of upcoming events all locations.',
+      () => {
+        // the act of getting the list of events is an asynchronous action
+        // so the first we are updating the App component using AppWrapper.update()
+        AppWrapper.update();
+        expect(AppWrapper.find('.event').hostNodes()).toHaveLength(
+          mockData.length
+        );
+      }
+    );
   });
 
   test('User should see a list of suggestions when they search for a city', ({
@@ -40,13 +45,27 @@ defineFeature(feature, (test) => {
     when,
     then,
   }) => {
-    given('the main page is open', () => {});
+    let CitySearchWrapper, locations;
+    given('the main page is open', () => {
+      locations = extractLocations(mockData);
+      CitySearchWrapper = shallow(
+        <CitySearch updateEvents={() => {}} locations={locations} />
+      );
+    });
 
-    when('the user starts typing in the city textbox', () => {});
+    when('the user starts typing in the city textbox', () => {
+      CitySearchWrapper.find('.city').simulate('change', {
+        target: { value: 'Berlin' },
+      });
+    });
 
     then(
       'the user should receive a list of cities (suggestions) that match what they’ve typed',
-      () => {}
+      () => {
+        // We expect to receive 2 li elements with suggestions
+        // One - with Berlin (which user typed), another - See all cities
+        expect(CitySearchWrapper.find('.suggestions li')).toHaveLength(2);
+      }
     );
   });
 
