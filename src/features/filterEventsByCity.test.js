@@ -75,23 +75,44 @@ defineFeature(feature, (test) => {
     when,
     then,
   }) => {
-    given('user was typing “Berlin” in the city textbox', () => {});
+    let AppWrapper;
+    // async function to allow your App component to properly load the events and locations.
+    given('user was typing “Berlin” in the city textbox', async () => {
+      // using the mount() function as the test will require interaction with its child
+      AppWrapper = await mount(<App />);
+      AppWrapper.find('.city').simulate('change', {
+        target: { value: 'Berlin' },
+      });
+    });
 
-    and('the list of suggested cities is showing', () => {});
+    and('the list of suggested cities is showing', () => {
+      // First, the update() function is called on AppWrapper to ensure
+      // the App component is updated after it receives the list of suggestions (
+      // since the expect() function in input change test will necessitate a call to the API, which is asynchronous);
+      AppWrapper.update();
+      expect(AppWrapper.find('.suggestions li')).toHaveLength(2);
+    });
 
     when(
       'the user selects a city (e.g., “Berlin, Germany”) from the list',
-      () => {}
+      () => {
+        AppWrapper.find('.suggestions li').at(0).simulate('click');
+      }
     );
 
     then(
       'their city should be changed to that city (i.e., “Berlin, Germany”)',
-      () => {}
+      () => {
+        const CitySearchWrapper = AppWrapper.find(CitySearch);
+        expect(CitySearchWrapper.state('query')).toBe('Berlin, Germany');
+      }
     );
 
     and(
       'the user should receive a list of upcoming events in that city',
-      () => {}
+      () => {
+        expect(AppWrapper.find('.event')).toHaveLength(mockData.length);
+      }
     );
   });
 });
