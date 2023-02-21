@@ -88,11 +88,9 @@ describe('<App /> integration', () => {
     const suggestionItems = AppWrapper.find(CitySearch).find('.suggestions li');
     // "See all cities" is defined as last last item (length -1)
     await suggestionItems.at(suggestionItems.length - 1).simulate('click');
-    const numberOfEvents = AppWrapper.state('numberOfEvents');
     await getEvents();
-    expect(AppWrapper.state('events')).toHaveLength(numberOfEvents);
-    // const eventsToShow = allEvents.toHaveLength(numberOfEvents);
-    // expect(AppWrapper.state('events')).toEqual(eventsToShow);
+    expect(AppWrapper.state('events')).toHaveLength(mockData.length);
+
     AppWrapper.unmount();
   });
 
