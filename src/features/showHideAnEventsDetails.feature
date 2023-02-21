@@ -1,8 +1,8 @@
 Feature: Show or hide an events details
 
 Scenario: An event element is collapsed by default
-Given list of events is loaded 
-When app is loaded
+Given app is loaded 
+When list of events is loaded
 And the user did not click the „Show Details“ yet
 Then event details are not visible for user
 
@@ -17,4 +17,3 @@ Given app is loaded
 And specific event is being expanded with the details
 When user pushes the button “Back” for specific event
 Then specific event is being collapsed
-And the user should receive a list of upcoming events in that city
