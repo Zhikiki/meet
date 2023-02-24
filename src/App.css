@@ -95,14 +95,24 @@ input {
   text-align: left;
 }
 
-.suggestions {
+/* .info-alert {
   width: 250px;
-
   position: absolute;
   z-index: 2;
   align-self: center;
   margin: 0;
   top: 43px;
+  font-size: 14px;
+  box-shadow: 10px 10px 16px -12px rgba(0, 0, 0, 0.75);
+} */
+
+.suggestions {
+  width: 250px;
+  position: absolute;
+  z-index: 2;
+  align-self: center;
+  margin: 0;
+  top: 54px;
   font-size: 14px;
   box-shadow: 10px 10px 16px -12px rgba(0, 0, 0, 0.75);
 }

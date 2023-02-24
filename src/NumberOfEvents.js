@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { ErrorAlert } from './Alerts';
 
 class NumberOfEvents extends Component {
   state = {
@@ -10,6 +11,16 @@ class NumberOfEvents extends Component {
 
     this.props.updateEvents(null, inputValue);
     this.setState({ numberOfEvents: inputValue });
+
+    if (inputValue < 1 || inputValue > 32) {
+      this.setState({
+        infoText: 'Select number from 1 to 32',
+      });
+    } else {
+      this.setState({
+        infoText: '',
+      });
+    }
   };
 
   render() {
@@ -25,6 +36,7 @@ class NumberOfEvents extends Component {
           value={numberOfEvents}
           onChange={this.handleInputChanged}
         />
+        <ErrorAlert text={this.state.infoText} />
         {/* <select
           name='pets'
           id='numberOfEvents__input'
@@ -39,35 +51,6 @@ class NumberOfEvents extends Component {
       </div>
     );
   }
-  // state = {
-  //   noe: 36,
-  // };
-
-  // changeNOE(value) {
-  //   this.setState({ noe: value });
-  // }
-
-  // render() {
-  //   const { noe } = this.state;
-  //   return (
-  //     <div className='NumberOfEvents'>
-  //       <input
-  //         list='noe'
-  //         type='number'
-  //         className='noe-input'
-  //         value={noe}
-  //         onChange={(event) => {
-  //           this.changeNOE(event.target.value);
-  //         }}
-  //       />
-  //       <datalist id='noe'>
-  //         <option value='36' />
-  //         <option value='72' />
-  //         <option value='108' />
-  //       </datalist>
-  //     </div>
-  //   );
-  // }
 }
 
 export default NumberOfEvents;
