@@ -95,24 +95,13 @@ input {
   text-align: left;
 }
 
-/* .info-alert {
-  width: 250px;
-  position: absolute;
-  z-index: 2;
-  align-self: center;
-  margin: 0;
-  top: 43px;
-  font-size: 14px;
-  box-shadow: 10px 10px 16px -12px rgba(0, 0, 0, 0.75);
-} */
-
 .suggestions {
   width: 250px;
   position: absolute;
   z-index: 2;
   align-self: center;
   margin: 0;
-  top: 54px;
+  top: 40px;
   font-size: 14px;
   box-shadow: 10px 10px 16px -12px rgba(0, 0, 0, 0.75);
 }
@@ -175,6 +164,13 @@ input {
 
 .numberOfEvents {
   text-align: right;
+}
+
+@media only screen and (max-width: 767px) {
+  .numberOfEvents {
+    text-align: left !important;
+    padding-left: 10px;
+  }
 }
 
 .numberOfEvents__input {

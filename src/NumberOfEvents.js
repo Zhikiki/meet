@@ -12,7 +12,11 @@ class NumberOfEvents extends Component {
     this.props.updateEvents(null, inputValue);
     this.setState({ numberOfEvents: inputValue });
 
-    if (inputValue < 1 || inputValue > 32) {
+    function containsOnlyNumbers(input) {
+      return /^\d+$/.test(input);
+    }
+
+    if (inputValue < 1 || inputValue > 32 || !containsOnlyNumbers(inputValue)) {
       this.setState({
         infoText: 'Select number from 1 to 32',
       });

@@ -77,7 +77,7 @@ class App extends Component {
   render() {
     return (
       <Container className='App my-5 p-3'>
-        <Row className='d-flex just justify-content-between mb-4'>
+        <Row className='d-flex flex-column-reverse flex-md-row justify-content-md-between mb-4'>
           <Col className='px-0 col-md-8'>
             <CitySearch
               locations={this.state.locations}

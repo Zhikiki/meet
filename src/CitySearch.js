@@ -53,7 +53,7 @@ class CitySearch extends Component {
           onChange={this.handleInputChanged}
           placeholder='Search by city'
         />
-        <InfoAlert className='info-alert' text={this.state.infoText} />
+
         <ul
           className={
             this.state.showSuggestions
@@ -61,6 +61,9 @@ class CitySearch extends Component {
               : 'display-none'
           }
         >
+          <li className={this.state.infoText === '' && 'display-none'}>
+            <InfoAlert text={this.state.infoText} />
+          </li>
           {this.state.suggestions.map((suggestion) => (
             <li
               key={suggestion}
