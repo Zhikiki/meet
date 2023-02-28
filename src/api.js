@@ -7,25 +7,6 @@ import { mockData } from './mock-data';
 import axios from 'axios';
 import NProgress from 'nprogress';
 
-// takes the access token which was found bellow in the code
-// checks wheather it is valid (returns response) or not (catches error)
-const checkToken = async (accessToken) => {
-  const result = await fetch(
-    `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`
-  )
-    .then((res) => res.json())
-    // write console.log for error
-    .catch((error) => error.json());
-
-  return result.error ? false : true;
-};
-
-export const extractLocations = (events) => {
-  var extractLocations = events.map((event) => event.location);
-  var locations = [...new Set(extractLocations)];
-  return locations;
-};
-
 // What this function does is check whether there’s a path,
 // then build the URL with the current path
 // (or build the URL without a path using window.history.pushState()).
@@ -33,28 +14,34 @@ export const extractLocations = (events) => {
 // used in get events with valid token
 const removeQuery = () => {
   if (window.history.pushState && window.location.pathname) {
-    var newurl = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+    var newurl =
+      window.location.protocol +
+      '//' +
+      window.location.host +
+      window.location.pathname;
     window.history.pushState('', '', newurl);
   } else {
-    newurl = `${window.location.protocol}//${window.location.host}`;
+    newurl = window.location.protocol + '//' + window.location.host;
     window.history.pushState('', '', newurl);
   }
 };
 
-// function is called bellow, when
-// there is no valid token, there is a code (URI)
-const getToken = async (code) => {
-  const encodeCode = encodeURIComponent(code);
-  const getTokenLambdaEP =
-    'https://zzgiz9xeii.execute-api.eu-central-1.amazonaws.com/dev/api/token';
-  const { access_token } = await fetch(`${getTokenLambdaEP}/${encodeCode}`)
-    .then((res) => {
-      return res.json();
-    })
-    .catch((error) => console.log(error));
-    // If token is successfuly fetched, we are saving it in local storage for future needs
-    access_token && localStorage.setItem('access_token', access_token);
-    return access_token
+// takes the access token which was found bellow in the code
+// checks wheather it is valid (returns response) or not (catches error)
+export const checkToken = async (accessToken) => {
+  const result = await fetch(
+    `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${accessToken}`
+  )
+    .then((res) => res.json())
+    .catch((error) => error.json());
+
+  return result;
+};
+
+export const extractLocations = (events) => {
+  var extractLocations = events.map((event) => event.location);
+  var locations = [...new Set(extractLocations)];
+  return locations;
 };
 
 export const getEvents = async () => {
@@ -73,9 +60,14 @@ export const getEvents = async () => {
     // removes the code from the URL once you’re finished with it
     removeQuery();
     // if token exists, we make a call to Lambda endpoint with axios
-    const getEventsLambdaEP =
-      'https://zzgiz9xeii.execute-api.eu-central-1.amazonaws.com/dev/api/get-events';
-    const url = `${getEventsLambdaEP}/${token}`;
+    const url =
+      'https://zzgiz9xeii.execute-api.eu-central-1.amazonaws.com/dev/api/get-events' +
+      '/' +
+      token;
+    // const getEventsLambdaEP =
+    //   'https://zzgiz9xeii.execute-api.eu-central-1.amazonaws.com/dev/api/get-events';
+    // const url = `${getEventsLambdaEP}/${token}`;
+
     const result = await axios.get(url);
     // if API call (axios) was siccessful, we get data with events
     if (result.data) {
@@ -89,6 +81,8 @@ export const getEvents = async () => {
     return result.data.events;
   }
 };
+
+
 
 export const getAccessToken = async () => {
   // Checks if token exists in local storage of the user
@@ -116,4 +110,27 @@ export const getAccessToken = async () => {
     return code && getToken(code);
   }
   return accessToken;
+};
+
+// function is called bellow, when
+// there is no valid token, there is a code (URI)
+const getToken = async (code) => {
+  const encodeCode = encodeURIComponent(code);
+  const { access_token } = await fetch(
+    // eslint-disable-next-line no-useless-concat
+    'https://zzgiz9xeii.execute-api.eu-central-1.amazonaws.com/dev/api/token' +
+      '/' +
+      encodeCode
+  )
+    // const getTokenLambdaEP =
+    //   'https://zzgiz9xeii.execute-api.eu-central-1.amazonaws.com/dev/api/token';
+    // const { access_token } = await fetch(`${getTokenLambdaEP}/${encodeCode}`)
+    .then((res) => {
+      return res.json();
+    })
+    .catch((error) => error);
+  // If token is successfuly fetched, we are saving it in local storage for future needs
+  access_token && localStorage.setItem('access_token', access_token);
+
+  return access_token;
 };
