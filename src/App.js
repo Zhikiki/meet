@@ -5,6 +5,7 @@ import EventList from './EventList';
 import CitySearch from './CitySearch';
 import NumberOfEvents from './NumberOfEvents';
 import { extractLocations, getEvents } from './api';
+import { OfflineAlert } from './Alerts';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
@@ -58,7 +59,6 @@ class App extends Component {
           events: eventsToShow,
           numberOfEvents: inputNumber,
         });
-        
       });
     }
     // getEvents().then((events) => {
@@ -75,9 +75,15 @@ class App extends Component {
   };
 
   render() {
+    const offlineMessage = navigator.online
+      ? ''
+      : 'You are currently Offline. The list of events may not be up to date';
     return (
       <Container className='App my-5 p-3'>
         <Row className='d-flex flex-column-reverse flex-md-row justify-content-md-between mb-4'>
+          <Col className='col-12'>
+            <OfflineAlert text={offlineMessage} />
+          </Col>
           <Col className='px-0 col-md-8'>
             <CitySearch
               locations={this.state.locations}
