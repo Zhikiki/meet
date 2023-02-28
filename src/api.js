@@ -53,6 +53,14 @@ export const getEvents = async () => {
     return mockData;
   }
 
+  // Returns cashed data when user is ofline
+  if (!navigator.onLine) {
+    const data = localStorage.getItem('lastEvents');
+    console.log(JSON.parse(data));
+    NProgress.done();
+    return data ? JSON.parse(data).events : [];
+  }
+
   // First we need to wait for results of getAccessToken() - funktion writen bellow
   const token = await getAccessToken();
 
@@ -81,8 +89,6 @@ export const getEvents = async () => {
     return result.data.events;
   }
 };
-
-
 
 export const getAccessToken = async () => {
   // Checks if token exists in local storage of the user
