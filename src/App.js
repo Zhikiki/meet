@@ -75,7 +75,7 @@ class App extends Component {
   };
 
   render() {
-    const offlineMessage = navigator.online
+    const offlineMessage = navigator.onLine
       ? ''
       : 'You are currently Offline. The list of events may not be up to date';
     return (
