@@ -4,8 +4,9 @@ import './nprogress.css';
 import EventList from './EventList';
 import CitySearch from './CitySearch';
 import NumberOfEvents from './NumberOfEvents';
-import { extractLocations, getEvents } from './api';
+import { extractLocations, getEvents, checkToken, getAccessToken } from './api';
 import { OfflineAlert } from './Alerts';
+import WelcomeScreen from './WelcomeScreen';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
@@ -18,16 +19,25 @@ class App extends Component {
     locations: [],
     selectedLocation: 'all',
     numberOfEvents: 32,
+    showWelcomeScreen: undefined,
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     this.mounted = true;
-    getEvents().then((events) => {
-      if (this.mounted) {
-        events = events.slice(0, this.state.numberOfEvents);
-        this.setState({ events, locations: extractLocations(events) });
-      }
-    });
+    const accessToken = localStorage.getItem('access_token');
+    const isTokenValid = (await checkToken(accessToken)).error ? false : true;
+    const searchParams = new URLSearchParams(window.location.search);
+
+    const code = searchParams.get('code');
+    this.setState({ showWelcomeScreen: !(code || isTokenValid) });
+    if ((code || isTokenValid) && this.mounted) {
+      getEvents().then((events) => {
+        if (this.mounted) {
+          events = events.slice(0, this.state.numberOfEvents);
+          this.setState({ events, locations: extractLocations(events) });
+        }
+      });
+    }
   }
   componentWillUnmount() {
     this.mounted = false;
@@ -75,9 +85,13 @@ class App extends Component {
   };
 
   render() {
+    if (this.state.showWelcomeScreen === undefined)
+      return <div className='App' />;
+
     const offlineMessage = navigator.onLine
       ? ''
       : 'You are currently Offline. The list of events may not be up to date';
+
     return (
       <Container className='App my-5 p-3'>
         <Row className='d-flex flex-column-reverse flex-md-row justify-content-md-between mb-4'>
@@ -98,6 +112,12 @@ class App extends Component {
           </Col>
         </Row>
         <EventList events={this.state.events} />
+        <WelcomeScreen
+          showWelcomeScreen={this.state.showWelcomeScreen}
+          getAccessToken={() => {
+            getAccessToken();
+          }}
+        />
       </Container>
     );
   }
