@@ -155,8 +155,8 @@ class App extends Component {
             />
 
             <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-            <Legend />
-            <Scatter data={this.getData()} fill='#8884d8' />
+            {/* <Legend /> */}
+            <Scatter data={this.getData()} fill='#2197F3' />
           </ScatterChart>
         </ResponsiveContainer>
 
