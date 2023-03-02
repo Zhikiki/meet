@@ -136,29 +136,29 @@ class App extends Component {
           </Col>
         </Row>
 
-        <ScatterChart
-          width={400}
-          height={400}
-          margin={{
-            top: 20,
-            right: 20,
-            bottom: 20,
-            left: 20,
-          }}
-        >
-          <CartesianGrid strokeDasharray='3 3' />
-          <XAxis dataKey='city' type='category' name='city' />
-          <YAxis
-            dataKey='number'
-            type='number'
-            name='number of events'
-            allowDecimals={false}
-          />
+        <ResponsiveContainer height={400}>
+          <ScatterChart
+            margin={{
+              top: 20,
+              right: 0,
+              bottom: 20,
+              left: 20,
+            }}
+          >
+            <CartesianGrid strokeDasharray='3 3' />
+            <XAxis dataKey='city' type='category' name='city' />
+            <YAxis
+              dataKey='number'
+              type='number'
+              name='number of events'
+              allowDecimals={false}
+            />
 
-          <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-          <Legend />
-          <Scatter data={this.getData()} fill='#8884d8' />
-        </ScatterChart>
+            <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+            <Legend />
+            <Scatter data={this.getData()} fill='#8884d8' />
+          </ScatterChart>
+        </ResponsiveContainer>
 
         <EventList events={this.state.events} />
         <WelcomeScreen
