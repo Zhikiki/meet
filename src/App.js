@@ -142,7 +142,7 @@ class App extends Component {
               top: 20,
               right: 0,
               bottom: 20,
-              left: 20,
+              left: 0,
             }}
           >
             <CartesianGrid strokeDasharray='3 3' />
