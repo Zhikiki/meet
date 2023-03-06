@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback  } from 'react';
 import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from 'recharts';
 
 const EventGenre = ({ events }) => {
@@ -19,6 +19,28 @@ const EventGenre = ({ events }) => {
     setData(() => getData());
   }, [events]);
 
+  const [opacity, setOpacity] = useState({
+    uv: 1,
+    pv: 1,
+  });
+
+  const handleMouseEnter = useCallback(
+    (o) => {
+      const { dataKey } = o;
+
+      setOpacity({ ...opacity, [dataKey]: 0.5 });
+    },
+    [opacity, setOpacity]
+  );
+
+  const handleMouseLeave = useCallback(
+    (o) => {
+      const { dataKey } = o;
+      setOpacity({ ...opacity, [dataKey]: 1 });
+    },
+    [opacity, setOpacity]
+  );
+
   //   const data = [
   //     { name: 'Group A', value: 400 },
   //     { name: 'Group B', value: 300 },
@@ -28,8 +50,8 @@ const EventGenre = ({ events }) => {
   const colors = ['#1F98F3', '#ba85ef', '#ff6bb9', '#ff7769', '#ffa600'];
 
   return (
-    <ResponsiveContainer height={400}>
-      <PieChart width={400}>
+    <ResponsiveContainer height={600}>
+      <PieChart>
         <Pie
           data={data}
           cx='200'
@@ -44,7 +66,12 @@ const EventGenre = ({ events }) => {
             <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
           ))}
         </Pie>
-        <Legend verticalAlign='top' height={36} />
+        <Legend
+          verticalAlign='bottom'
+          height={32}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        />
       </PieChart>
     </ResponsiveContainer>
   );
