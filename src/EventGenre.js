@@ -50,7 +50,7 @@ const EventGenre = ({ events }) => {
   const colors = ['#1F98F3', '#ba85ef', '#ff6bb9', '#ff7769', '#ffa600'];
 
   return (
-    <ResponsiveContainer height={600}>
+    <ResponsiveContainer height={400}>
       <PieChart>
         <Pie
           data={data}
