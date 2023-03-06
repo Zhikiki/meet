@@ -25,7 +25,7 @@ const EventGenre = ({ events }) => {
   //     { name: 'Group C', value: 300 },
   //     { name: 'Group D', value: 200 },
   //   ];
-  const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+  const colors = ['#1F98F3', '#ba85ef', '#ff6bb9', '#ff7769', '#ffa600'];
 
   return (
     <ResponsiveContainer height={400}>

@@ -137,10 +137,10 @@ class App extends Component {
           </Col>
         </Row>
         <Row className='data-visualisation-container'>
-          <Col className='PieChart'>
+          <Col className='PieChart col-md-4 text-center'>
             <EventGenre events={this.state.events} />
           </Col>
-          <Col className='ScatterChart'>
+          <Col className='ScatterChart col-md-8 text-center'>
             <ResponsiveContainer height={400}>
               <ScatterChart
                 margin={{
