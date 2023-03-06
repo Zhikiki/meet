@@ -7,6 +7,7 @@ import NumberOfEvents from './NumberOfEvents';
 import { extractLocations, getEvents, checkToken, getAccessToken } from './api';
 import { OfflineAlert } from './Alerts';
 import WelcomeScreen from './WelcomeScreen';
+import EventGenre from './EventGenre';
 
 import {
   ScatterChart,
@@ -16,7 +17,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Legend,
+  // Legend,
 } from 'recharts';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -135,30 +136,36 @@ class App extends Component {
             />
           </Col>
         </Row>
+        <Row className='data-visualisation-container'>
+          <Col className='PieChart'>
+            <EventGenre events={this.state.events} />
+          </Col>
+          <Col className='ScatterChart'>
+            <ResponsiveContainer height={400}>
+              <ScatterChart
+                margin={{
+                  top: 20,
+                  right: 0,
+                  bottom: 20,
+                  left: 0,
+                }}
+              >
+                <CartesianGrid strokeDasharray='3 3' />
+                <XAxis dataKey='city' type='category' name='city' />
+                <YAxis
+                  dataKey='number'
+                  type='number'
+                  name='number of events'
+                  allowDecimals={false}
+                />
 
-        <ResponsiveContainer height={400}>
-          <ScatterChart
-            margin={{
-              top: 20,
-              right: 0,
-              bottom: 20,
-              left: 0,
-            }}
-          >
-            <CartesianGrid strokeDasharray='3 3' />
-            <XAxis dataKey='city' type='category' name='city' />
-            <YAxis
-              dataKey='number'
-              type='number'
-              name='number of events'
-              allowDecimals={false}
-            />
-
-            <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-            {/* <Legend /> */}
-            <Scatter data={this.getData()} fill='#2197F3' />
-          </ScatterChart>
-        </ResponsiveContainer>
+                <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+                {/* <Legend /> */}
+                <Scatter data={this.getData()} fill='#2197F3' />
+              </ScatterChart>
+            </ResponsiveContainer>
+          </Col>
+        </Row>
 
         <EventList events={this.state.events} />
         <WelcomeScreen
