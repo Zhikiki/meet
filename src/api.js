@@ -5,7 +5,7 @@
 //  The Set will remove all duplicates from the array.
 import { mockData } from './mock-data';
 import axios from 'axios';
-import NProgress from 'nprogress';
+//import NProgress from 'nprogress';
 
 // What this function does is check whether there’s a path,
 // then build the URL with the current path
@@ -46,10 +46,10 @@ export const extractLocations = (events) => {
 
 export const getEvents = async () => {
   // shows users that the application is loading data when it tries to access the Google Calendar API
-  NProgress.start();
+  //NProgress.start();
   // If we are using local host, we'll get events from mockData
   if (window.location.href.startsWith('http://localhost')) {
-    NProgress.done();
+    //NProgress.done();
     return mockData;
   }
 
@@ -57,7 +57,7 @@ export const getEvents = async () => {
   if (!navigator.onLine) {
     const data = localStorage.getItem('lastEvents');
     console.log(JSON.parse(data));
-    NProgress.done();
+    //NProgress.done();
     return data ? JSON.parse(data).events : [];
   }
 
@@ -85,7 +85,7 @@ export const getEvents = async () => {
       localStorage.setItem('lastEvents', JSON.stringify(result.data));
       localStorage.setItem('locations', JSON.stringify(locations));
     }
-    NProgress.done();
+    //NProgress.done();
     return result.data.events;
   }
 };
